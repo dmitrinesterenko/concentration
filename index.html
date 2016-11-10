@@ -1,0 +1,158 @@
+<html>
+<head>
+	<title>match game!</title>
+	<style>
+
+		.clearfix:after {
+		     visibility: hidden;
+		     display: block;
+		     font-size: 0;
+		     content: " ";
+		     clear: both;
+		     height: 0;
+		     }
+		.clearfix { display: inline-block; }
+		/* start commented backslash hack \*/
+		* html .clearfix { height: 1%; }
+		.clearfix { display: block; }
+
+		.wrapper {
+			width: 80%;
+			margin: 10px auto;
+		}
+
+		.card {
+			width: 10%;
+			margin: 4%;
+			height: 150px;
+			float: left;
+			background: purple;
+		}
+
+		.card.selected {
+			background-size: cover;
+		}
+
+		.card.selected > img {
+			width: 100%;
+			height: 100%;
+			display: block;
+		}
+	</style>
+</head>
+<body>
+	<div class="wrapper clearfix">
+		<div class="card"></div>
+		<div class="card"></div>
+		<div class="card"></div>
+		<div class="card"></div>
+		<div class="card"></div>
+		<div class="card"></div>
+		<div class="card"></div>
+		<div class="card"></div>
+		<div class="card"></div>
+		<div class="card"></div>
+		<div class="card"></div>
+		<div class="card"></div>
+		<div class="card"></div>
+		<div class="card"></div>
+		<div class="card"></div>
+		<div class="card"></div>
+		<div class="card"></div>
+		<div class="card"></div>
+		<div class="card"></div>
+		<div class="card"></div>
+	</div>
+  <script>
+    function shuffle(arry){
+      var shuffled_arry = [];
+      for(var i=0; i<arry.length;i++){
+        pos1 = Math.round(Math.random()*arry.length);
+        pos2 = Math.round(Math.random()*arry.length);
+        //temp = arry[pos1];
+        shuffled_arry[pos1] = arry[i];
+        //arry[pos2] = temp;
+        arry.pop();
+      }
+      return shuffled_arry;
+    }
+
+    function randInt(size){
+      return Math.round(Math.random()*size);
+    }
+
+    var list1 = [1,2,3,4,5,6,7,8,9];
+    var list2 = list1.slice();
+    var board = [];
+    var opened = 0;
+    board_size = 20;
+    i=9;
+    while(list1.length + list2.length > 0){
+      board[randInt(board_size*100)] = list1.pop();
+      board[randInt(board_size*100)] = list2.pop();
+      console.log(list1);
+      i--;
+    }
+    board[randInt(board_size*100)] = 0;
+    board[randInt(board_size*100)] = 0;
+
+    console.log(board);
+    board = board.join('').split('');
+
+
+    console.log(board);
+    function draw(board){
+      parent = document.querySelector(".wrapper");
+      els = parent.children;
+      parent.onclick = cardClicked;
+      els_count = els.length;
+      for(var i=0; i<els_count; i++){
+        els[i].setAttribute("data-id", board[i]);
+      }
+    }
+
+    function closeCard(el){
+      el.setAttribute("style", "");
+      opened = 0;
+    }
+
+    function cardClicked(el){
+      console.log(el.srcElement);
+      element = el.srcElement.getAttribute("data-id");
+      if(opened > 0){
+          if(opened == element){
+            console.log('WINNER');
+          }
+          else{
+            closeCard(el.srcElement);
+            openedCard = document.querySelector("[data-id='"+opened+"']")
+            closeCard(openedCare);
+            console.log('CLOSE');
+          }
+      }
+      opened = element;
+      el.srcElement.setAttribute("style", "background: url('images/"+element+".gif') no-repeat; background-size: contain !important");
+      el.srcElement.setAttribute("class", "card selected");
+
+      console.log(opened);
+
+    }
+
+    draw(board);
+
+    //console.log(shuffle(list1));
+    //console.log(shuffle(list2));
+    //els = document.querySelector('.wrapper').children;
+    //els_count = els.length;
+    //console.log(els_count);
+    //for(var i=0; i<els_count/2; i++){
+    //    pos1 = Math.round(Math.random()*list1.length);
+    //    pos2 = Math.round(Math.random()*list2.length);
+    //    els[pos1].setAttribute("data-id", i);
+    //    els[pos2].setAttribute("data-id", i);
+    //    list1.pop();
+    //    list2.pop();
+    //}
+  </script>
+</body>
+</html>
